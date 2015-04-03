@@ -12,11 +12,15 @@ private class QueryTest {
 			'    "conditions": [{' +
 			'      "field" : "Account.Name", ' +
 			'      "operator" : "LIKE", ' +
-			'      "value" : "A%" ' +
+			'      "value" : "%a%" ' +
 			'    }, { ' +
 			'      "field" : "Amount", ' +
 			'      "operator" : ">=", ' +
-			'      "value" : 500000 ' +
+			'      "value" : 5000 ' +
+			'    }, { ' +
+			'      "field" : "Type", ' +
+			'      "operator" : "!=", ' +
+			'      "value" : null ' +
 			'    }, { ' +
 			'      "mode" : "OR", ' +
 			'      "conditions": [{' +
@@ -30,14 +34,14 @@ private class QueryTest {
 			'          "operator" : ">=", ' +
 			'          "value" : { ' +
 			'            "type" : "date", ' +
-			'            "value" : "TODAY" ' +
+			'            "value" : "2008-01-01" ' +
 			'          } ' +
 			'        }, { ' +
 			'          "field" : "CloseDate", ' +
 			'          "operator" : "<", ' +
 			'          "value" : { ' +
 			'            "type" : "date", ' +
-			'            "value" : "2015-12-31" ' +
+			'            "value" : "TODAY" ' +
 			'          } ' +
 			'        }] ' +
 			'      }] ' +
@@ -62,14 +66,16 @@ private class QueryTest {
 			'SELECT Id, Name, Account.Id, Account.Name ' +
 			'FROM Opportunity ' +
 			'WHERE ' +
-			'Account.Name LIKE \'A%\' ' +
+			'Account.Name LIKE \'%a%\' ' +
 			'AND ' +
-			'Amount >= 500000 ' +
+			'Amount >= 5000 ' +
+			'AND ' +
+			'Type != null ' +
 			'AND ' +
 			'(' +
 			  'Account.Owner.Username != \'user01@example.com\' ' +
 				'OR ' +
-			  '(CloseDate >= TODAY AND CloseDate < 2015-12-31)' +
+			  '(CloseDate >= 2008-01-01 AND CloseDate < TODAY)' +
 			') ' +
 			'ORDER BY Account.Type ASC NULLS LAST, Amount DESC ' +
 			'LIMIT 1000';
