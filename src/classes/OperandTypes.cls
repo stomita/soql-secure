@@ -30,7 +30,7 @@ public class OperandTypes {
 	}
 
 	public static Pattern DATE_OPERAND_REGEXP =
-		Pattern.compile('^([0-9]{4}-[0-9]{2}-[0-9]{2}|TODAY|TOMORROW|YESTERDAY|(NEXT|THIS|LAST)_(WEEK|MONTH|(FISCAL_)?QUARTER|(FISCAL_)?YEAR))');
+		Pattern.compile('^(\\d{4}-\\d{2}-\\d{2}(T\\d{2}:?\\d{2}:?\\d{2}(\\.\\d+)?([\\+\\-]\\d{2}:?\\d{2}|Z))?|TODAY|TOMORROW|YESTERDAY|(NEXT|THIS|LAST)_(WEEK|MONTH|(FISCAL_)?QUARTER|(FISCAL_)?YEAR))');
 
 	public class DateOperand implements Operand {
 		public String value { get; set; }

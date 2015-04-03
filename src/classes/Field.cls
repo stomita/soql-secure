@@ -16,12 +16,12 @@ public class Field implements QueryElement {
 			String refName = this.path[i];
 			if (i == len - 1) {
 				if (!MetadataValidator.isFieldAccessible(refName, sobjName)) {
-					throw new InvalidQueryException('Field not found or not accessible: ' + refName);
+					throw new InvalidQueryException('Field is not found or not accessible: ' + refName);
 				}
 			} else {
 				String[] parents = MetadataValidator.getParentRelationshipObjects(refName, sobjName);
 				if (parents == null) {
-					throw new InvalidQueryException('Relationship not foound or not accessible: ' + refName);
+					throw new InvalidQueryException('Relationship is not found or not accessible: ' + refName);
 				} else {
 					sobjName = parents[0];
 				}

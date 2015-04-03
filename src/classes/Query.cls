@@ -70,4 +70,5 @@ public with sharing class Query implements QueryElement {
 		String soql = this.toSOQL();
 		return Database.query(soql);
 	}
+
 }
