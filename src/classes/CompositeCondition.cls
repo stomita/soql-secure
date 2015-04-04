@@ -1,35 +1,28 @@
 public class CompositeCondition implements Condition {
-	public static Pattern CONDITION_MODE_REGEXP = Pattern.compile('(?i)^(AND|OR|NOT)$');
-	public String mode { get; set; }
+	public static Pattern OPERATOR_PATTERN = Pattern.compile('(?i)^(AND|OR)$');
+	public String operator { get; set; }
 	public Condition[] conditions { get; set; }
-	public Boolean isRoot { get; set; }
+	public Boolean stripParens { get; set; }
 
-	public CompositeCondition() { }
-
-	public CompositeCondition(Map<String, Object> config, String baseObjectName, Boolean isRoot) {
-		this.mode = (String) config.get('mode');
+	public CompositeCondition(Map<String, Object> config, String baseObjectName, Boolean stripParens) {
+		this.operator = (String) config.get('operator');
 		Object[] conditions = (Object[]) config.get('conditions');
 		if (conditions != null) {
 			this.conditions = new Condition[] {};
 			for (Object c : conditions) {
 				Map<String, Object> cond = (Map<String, Object>) c;
-				if (cond.get('mode') != null) {
-					this.conditions.add(new CompositeCondition(cond, baseObjectname));
-				} else {
-				  this.conditions.add(new SingleCondition(cond, baseObjectName));
-				}
+				this.conditions.add(ConditionBuilder.buildCondition(cond, baseObjectName, false));
 			}
 		}
-		this.isRoot = isRoot;
-	}
-
-	public CompositeCondition(Map<String, Object> config, String baseObjectName) {
-		this(config, baseObjectName, false);
+		this.stripParens = stripParens;
 	}
 
 	public void validate() {
-		if (this.mode == null || !CONDITION_MODE_REGEXP.matcher(this.mode).matches()) {
-			throw new InvalidQueryException('Condition mode is invalid : ' + this.mode);
+		if (this.operator == null || !OPERATOR_PATTERN.matcher(this.operator).matches()) {
+			throw new InvalidQueryException('Invalid logical operator : ' + this.operator);
+		}
+		if (this.conditions == null || this.conditions.size() == 0) {
+			throw new InvalidQueryException('Composite conditions definitions are not found');
 		}
 		for (Condition condition : this.conditions) {
 			condition.validate();
@@ -41,8 +34,8 @@ public class CompositeCondition implements Condition {
 		for (Condition cond : this.conditions) {
 			conditionStrings.add(cond.toSOQL());
 		}
-		String condition = String.join(conditionStrings, ' ' + this.mode + ' ');
-		return conditionStrings.size() > 0 && !this.isRoot ? '(' + condition + ')' : condition;
+		String condition = String.join(conditionStrings, ' ' + this.operator.toUpperCase() + ' ');
+		return conditionStrings.size() > 0 && !this.stripParens ? '(' + condition + ')' : condition;
 	}
 
 }

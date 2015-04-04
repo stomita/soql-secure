@@ -1,5 +1,28 @@
 public class OperandTypes {
 
+	public static Operand createOperand(Object v) {
+		if (v == null) {
+			return new OperandTypes.NullOperand();
+		} else if (v instanceOf String) {
+			return new OperandTypes.StringOperand((String) v);
+		} else if (v instanceOf Decimal) {
+			return new OperandTypes.DecimalOperand((Decimal) v);
+		} else if (v instanceOf Boolean) {
+			return new OperandTypes.BooleanOperand((Boolean) v);
+		} else if (v instanceOf Object[]) {
+			return new OperandTypes.ArrayOperand((Object[]) v);
+		} else if (v instanceOf Map<String, Object>) {
+			Map<String, Object> m = (Map<String, Object>) v;
+			String type = ((String) m.get('type'));
+			if (type == 'date') {
+				return new OperandTypes.DateOperand((String) m.get('value'));
+			} else if (m.get('table') instanceOf String) {
+//				this.value = new OperandTypes.SubQueryOperand(m);
+			}
+		}
+		return null;
+	}
+
 	public class NullOperand implements Operand {
 		public void validate() {}
 		public String toSOQL() {
@@ -14,7 +37,7 @@ public class OperandTypes {
 		}
 		public void validate() {}
 		public String toSOQL() {
-			return '\'' + String.escapeSingleQuotes(value) + '\'';
+			return '\'' + String.escapeSingleQuotes(this.value) + '\'';
 		}
 	}
 
@@ -25,7 +48,36 @@ public class OperandTypes {
 		}
 		public void validate() {}
 		public String toSOQL() {
-			return String.valueOf(value);
+			return String.valueOf(this.value);
+		}
+	}
+
+	public class BooleanOperand implements Operand {
+		public Boolean value { get; set; }
+		public BooleanOperand(Boolean value) {
+			this.value = value;
+		}
+		public void validate() {}
+		public String toSOQL() {
+			return String.valueOf(this.value);
+		}
+	}
+
+	public class ArrayOperand implements Operand {
+		public Operand[] values { get; set; }
+		public ArrayOperand(Object[] values) {
+			this.values = new Operand[] {};
+			for (Object value : values) {
+				this.values.add(OperandTypes.createOperand(value));
+			}
+		}
+		public void validate() {}
+		public String toSOQL() {
+			String[] valueStrings = new String[] {};
+			for (Operand value : this.values) {
+				valueStrings.add(value.toSOQL());
+			}
+			return '('+String.join(valueStrings, ', ')+')';
 		}
 	}
 

@@ -3,8 +3,6 @@ public class SortInfo implements QueryElement {
 	public String direction { get; set; }
 	public String nullOrder { get; set; }
 
-	public SortInfo() {}
-
 	public SortInfo(Map<String, Object> config, String baseObjectName) {
 		this.field = new Field((String) config.get('field'), baseObjectName);
 		this.direction = (String) config.get('direction');

@@ -8,11 +8,14 @@ private class QueryTest {
 			'  "fields" : ["Id", "Name", "Account.Id", "Account.Name"], ' +
 			'  "table" : "Opportunity", ' +
 			'  "condition" : { ' +
-			'    "mode" : "AND", ' +
-			'    "conditions": [{' +
-			'      "field" : "Account.Name", ' +
-			'      "operator" : "LIKE", ' +
-			'      "value" : "%a%" ' +
+			'    "operator" : "AND", ' +
+			'    "conditions": [{ ' +
+			'      "operator": "NOT", ' +
+			'      "condition": { ' +
+			'        "field" : "Account.Name", ' +
+			'        "operator" : "LIKE", ' +
+			'        "value" : "%a%" ' +
+			'      } ' +
 			'    }, { ' +
 			'      "field" : "Amount", ' +
 			'      "operator" : ">=", ' +
@@ -22,13 +25,21 @@ private class QueryTest {
 			'      "operator" : "!=", ' +
 			'      "value" : null ' +
 			'    }, { ' +
-			'      "mode" : "OR", ' +
+			'      "field" : "StageName", ' +
+			'      "operator" : "IN", ' +
+			'      "value" : [ "Prospecting", "Value Proposition", "Qualification" ] ' +
+			'    }, { ' +
+			'      "operator" : "OR", ' +
 			'      "conditions": [{' +
 			'        "field" : "Account.Owner.Username", ' +
 			'        "operator" : "!=", ' +
 			'        "value" : "user01@example.com" ' +
 			'      }, { ' +
-			'        "mode" : "AND", ' +
+			'        "field" : "Account.Owner.IsActive", ' +
+			'        "operator" : "=", ' +
+			'        "value" : false ' +
+			'      }, { ' +
+			'        "operator" : "AND", ' +
 			'        "conditions": [{' +
 			'          "field" : "CloseDate", ' +
 			'          "operator" : ">=", ' +
@@ -66,16 +77,20 @@ private class QueryTest {
 			'SELECT Id, Name, Account.Id, Account.Name ' +
 			'FROM Opportunity ' +
 			'WHERE ' +
-			'Account.Name LIKE \'%a%\' ' +
+			'(NOT Account.Name LIKE \'%a%\') ' +
 			'AND ' +
 			'Amount >= 5000 ' +
 			'AND ' +
 			'Type != null ' +
 			'AND ' +
+			'StageName IN (\'Prospecting\', \'Value Proposition\', \'Qualification\') ' +
+			'AND ' +
 			'(' +
-			  'Account.Owner.Username != \'user01@example.com\' ' +
+				'Account.Owner.Username != \'user01@example.com\' ' +
 				'OR ' +
-			  '(CloseDate >= 2008-01-01 AND CloseDate < TODAY)' +
+				'Account.Owner.IsActive = false ' +
+  			'OR ' +
+				'(CloseDate >= 2008-01-01 AND CloseDate < TODAY)' +
 			') ' +
 			'ORDER BY Account.Type ASC NULLS LAST, Amount DESC ' +
 			'LIMIT 1000';

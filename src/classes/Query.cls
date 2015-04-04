@@ -4,17 +4,23 @@ public with sharing class Query implements QueryElement {
 	public Condition condition { get; set; }
 	public SortInfo[] sortInfo { get; set; }
 	public Integer queryLimit { get; set; }
-
-	public Query() {}
+	public Integer offset { get; set; }
 
 	public Query(Map<String, Object> config) {
 		this.table = (String) config.get('table');
+		System.debug('table = ' + this.table);
 		this.fields = new Field[] {};
-		for (Object field : (Object[]) config.get('fields')) {
-			this.fields.add(new Field((String) field, this.table));
+		Object[] fields = (Object[]) config.get('fields');
+		if (fields != null) {
+			for (Object field : fields) {
+				System.debug('field = ' + field);
+				this.fields.add(new Field((String) field, this.table));
+			}
 		}
 		Map<String, Object> cond = (Map<String, Object>) config.get('condition');
-		if (cond != null) {	this.condition = new CompositeCondition(cond, this.table, true); }
+		if (cond != null) {
+			this.condition = ConditionBuilder.buildCondition(cond, this.table, true);
+		}
 		Object[] sortInfo = (Object[]) config.get('sortInfo');
 		if (sortInfo != null) {
 			this.sortInfo = new SortInfo[] {};
@@ -23,23 +29,30 @@ public with sharing class Query implements QueryElement {
 			}
 		}
 		this.queryLimit = (Integer) config.get('limit');
+		this.offset = (Integer) config.get('offset');
 	}
 
 	public void validate() {
+		if (!MetadataValidator.isObjectAccessible(this.table)) {
+			throw new InvalidQueryException('Querying object is not available or not accessible : ' + this.table);
+		}
+		if (fields == null) { throw new InvalidQueryException('fields are not defined in query config'); }
 		for (Field field : this.fields) {
 			field.validate();
-		}
-		if (!MetadataValidator.isObjectAccessible(this.table)) {
-			throw new InvalidQueryException('Querying object is not accessible : ' + this.table);
 		}
 		if (this.condition != null) {
 			this.condition.validate();
 		}
-		for (SortInfo sortInfo : this.sortInfo) {
-			sortInfo.validate();
+		if (this.sortInfo != null) {
+			for (SortInfo sortInfo : this.sortInfo) {
+				sortInfo.validate();
+			}
 		}
 		if (this.queryLimit != null && this.queryLimit <= 0) {
 			throw new InvalidQueryException('Query limit should be plus integer: ' + this.queryLimit);
+		}
+		if (this.offset != null && this.offset <= 0) {
+			throw new InvalidQueryException('Query offset should be plus integer: ' + this.queryLimit);
 		}
 	}
 
