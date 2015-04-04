@@ -19,7 +19,7 @@ public with sharing class MyRemoteController {
 
 ### Client (JavaScript in Visualforce) 
 
-```
+```javascript
 // Define query in JSON
 var queryConfig = {
   "fields": [ "Id", "Name", "Account.Name" ],
