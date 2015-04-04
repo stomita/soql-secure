@@ -51,3 +51,19 @@ MyRemoteController.query(JSON.stringify(queryConfig), function(records, event) {
   }
 });
 ```
+
+## Comparison between other solutions
+
+1. REST/SOAP API
+  - Consumes API request quota
+
+2. JavaScript Remoting 
+  - Doesn't have enough flexibility to build query in client side (JavaScript)
+
+3. RemoteTK
+  - Not secure because it doesn't check FLS, cannot be used in production
+  - Recently removed from official Toolkit
+
+4. Visualforce Remote Objects
+  - Target Object/Field must be pre-defined in Page definition
+  - Not supporting relationship query
