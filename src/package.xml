@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-        <members>*</members>
+        <members>CompositeCondition</members>
+        <members>Condition</members>
+        <members>ConditionBuilder</members>
+        <members>Field</members>
+        <members>InvalidQueryException</members>
+        <members>Metadata</members>
+        <members>MetadataValidator</members>
+        <members>NegateCondition</members>
+        <members>Operand</members>
+        <members>OperandTypes</members>
+        <members>Query</members>
+        <members>QueryElement</members>
+        <members>QueryTest</members>
+        <members>SObjectDescription</members>
+        <members>SObjectFieldDescription</members>
+        <members>SingleCondition</members>
+        <members>SortInfo</members>
         <name>ApexClass</name>
     </types>
     <version>34.0</version>
