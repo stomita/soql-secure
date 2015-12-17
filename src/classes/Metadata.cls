@@ -64,30 +64,30 @@ public with sharing class Metadata {
 		// field.highScaleNumber = fd.isHighScaleNumber();
 		field.htmlFormatted = fd.isHtmlFormatted();
 		field.idLookup = fd.isIdLookup();
-	  //public String inlineHelpText { get; set; }
+		field.inlineHelpText = fd.getInlineHelpText();
 	  field.length = fd.getLength();
-		//public String mask { get; set; }
-	  //public String maskType { get; set; }
+		field.mask = fd.getMask();
+		field.maskType = fd.getMaskType();
 	  field.nameField = fd.isNameField();
-		//public Boolean namePointing { get; set; }
+		field.namePointing = fd.isNamePointing();
 	  field.nillable = fd.isNillable();
-		// public Boolean permissionable { get; set; }
-	  // public List<Object> picklistValues { get; set; }
-	  // public Integer precision { get; set; }
-	  // public Boolean queryByDistance { get; set; }
-	  // public String referenceTargetField { get; set; }
+		field.permissionable = fd.isPermissionable();
+		field.picklistValues = fd.getPicklistValues();
+		field.precision = fd.getPrecision();
+		field.queryByDistance = fd.isQueryByDistance();
+		field.referenceTargetField = fd.getReferenceTargetField();
 	  field.referenceTo = convertReferenceToObjectNames(fd.getReferenceTo());
 		field.relationshipName = fd.getRelationshipName();
 	  field.relationshipOrder = fd.getRelationshipOrder();
-		// public Boolean restrictedDelete { get; set; }
-	  // public Boolean restrictedPicklist { get; set; }
-	  // public Integer scale { get; set; }
+		field.restrictedDelete = fd.isRestrictedDelete();
+		field.restrictedPicklist = fd.isRestrictedPicklist();
+		field.scale = fd.getScale();
 	  // field.soapType = fd.getSoapType();
 		field.sortable = fd.isSortable();
 		field.type = displayTypeMap.get(fd.getType());
 		field.unique = fd.isUnique();
 		field.updateable = fd.isUpdateable();
-	  // public Boolean writeRequiresMasterRead { get; set; }
+		field.writeRequiresMasterRead = fd.isWriteRequiresMasterRead();
 
 		return field;
 	}
