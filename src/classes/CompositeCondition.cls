@@ -18,6 +18,7 @@ public class CompositeCondition implements Condition {
 	}
 
 	public void validate() {
+		System.debug('Validating Composite Condition: ' + this.operator);
 		if (this.operator == null || !OPERATOR_PATTERN.matcher(this.operator).matches()) {
 			throw new InvalidQueryException('Invalid logical operator : ' + this.operator);
 		}

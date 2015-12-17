@@ -5,9 +5,9 @@ public class ConditionBuilder {
 		} else {
 			String operator = (String) config.get('operator');
 			if (operator != null && operator.toUpperCase() == 'NOT') {
-				return new NegateCondition(config, baseObjectname, stripParens);
+				return new NegateCondition(config, baseObjectName, stripParens);
 			} else {
-				return new CompositeCondition(config, baseObjectname, stripParens);
+				return new CompositeCondition(config, baseObjectName, stripParens);
 			}
 		}
 		return null;

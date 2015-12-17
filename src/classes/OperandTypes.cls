@@ -14,7 +14,7 @@ public class OperandTypes {
 		} else if (v instanceOf Map<String, Object>) {
 			Map<String, Object> m = (Map<String, Object>) v;
 			String type = ((String) m.get('type'));
-			if (type == 'date') {
+			if (type == 'date' || type == 'datetime') {
 				return new OperandTypes.DateOperand((String) m.get('value'));
 			} else if (m.get('table') instanceOf String) {
 //				this.value = new OperandTypes.SubQueryOperand(m);

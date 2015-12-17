@@ -33,21 +33,26 @@ public with sharing class Query implements QueryElement {
 	}
 
 	public void validate() {
+		System.debug('Validating Table: ' + this.table);
 		if (!MetadataValidator.isObjectAccessible(this.table)) {
 			throw new InvalidQueryException('Querying object is not available or not accessible : ' + this.table);
 		}
 		if (fields == null) { throw new InvalidQueryException('fields are not defined in query config'); }
+		System.debug('Validating Fields: ');
 		for (Field field : this.fields) {
 			field.validate();
 		}
+		System.debug('Validating Conditions: ');
 		if (this.condition != null) {
 			this.condition.validate();
 		}
+		System.debug('Validating Sort Info: ');
 		if (this.sortInfo != null) {
 			for (SortInfo sortInfo : this.sortInfo) {
 				sortInfo.validate();
 			}
 		}
+		System.debug('Validating Query Limit and Offset: ');
 		if (this.queryLimit != null && this.queryLimit <= 0) {
 			throw new InvalidQueryException('Query limit should be plus integer: ' + this.queryLimit);
 		}
