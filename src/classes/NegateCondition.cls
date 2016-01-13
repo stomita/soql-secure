@@ -1,4 +1,4 @@
-public class NegateCondition implements Condition {
+public with sharing class NegateCondition implements Condition {
 	public String operator { get; set; }
 	public Condition condition { get; set; }
 	public Boolean stripParens { get; set; }

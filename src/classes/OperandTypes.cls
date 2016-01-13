@@ -1,4 +1,4 @@
-public class OperandTypes {
+public with sharing class OperandTypes {
 
 	public static Operand createOperand(Object v) {
 		if (v == null) {

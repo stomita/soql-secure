@@ -1,4 +1,4 @@
-public class SortInfo implements QueryElement {
+public with sharing class SortInfo implements QueryElement {
 	public Field field { get; set; }
 	public String direction { get; set; }
 	public String nullOrder { get; set; }

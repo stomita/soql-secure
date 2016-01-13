@@ -1,4 +1,4 @@
-public class CompositeCondition implements Condition {
+public with sharing class CompositeCondition implements Condition {
 	public static Pattern OPERATOR_PATTERN = Pattern.compile('(?i)^(AND|OR)$');
 	public String operator { get; set; }
 	public Condition[] conditions { get; set; }

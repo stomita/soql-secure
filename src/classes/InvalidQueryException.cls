@@ -1,1 +1,1 @@
-public class InvalidQueryException extends Exception {}
+public with sharing class InvalidQueryException extends Exception {}

@@ -1,4 +1,4 @@
-public class Field implements QueryElement {
+public with sharing class Field implements QueryElement {
 	public String[] path { get; set; }
 	public String baseObjectName { get; set; }
 

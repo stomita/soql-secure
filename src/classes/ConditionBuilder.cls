@@ -1,4 +1,4 @@
-public class ConditionBuilder {
+public with sharing class ConditionBuilder {
   public static Condition buildCondition(Map<String, Object> config, String baseObjectName, Boolean stripParens) {
     if (config.get('field') != null) {
 			return new SingleCondition(config, baseObjectName);

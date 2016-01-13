@@ -1,4 +1,4 @@
-public class SingleCondition implements Condition {
+public with sharing class SingleCondition implements Condition {
 	public static Pattern OPERATOR_PATTERN = Pattern.compile('(?i)^(=|!=|>|>=|<|<=|LIKE|IN|NOT IN)$');
 	public String operator { get; set; }
 	public Field field { get; set; }
