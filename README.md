@@ -67,3 +67,8 @@ MyRemoteController.query(JSON.stringify(queryConfig), function(records, event) {
 4. Visualforce Remote Objects
   - Target Object/Field must be pre-defined in Page definition
   - Not supporting relationship query
+
+## License
+
+MIT
+
